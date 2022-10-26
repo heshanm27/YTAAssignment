@@ -8,8 +8,15 @@ const getAllBookDetails = async (req, res) => {
   //calculate skip value
   const skip = (page - 1) * limit;
 
+  //get total number of documents
+  const total = await bookModel.countDocuments();
+
   const books = await bookModel.find({}).skip(skip).limit(limit);
-  res.status(200).json({ books });
+
+  //calculate total pages
+  const bookPageCount = Math.ceil(total / limit);
+
+  res.status(200).json({ books, bookPageCount });
 };
 
 const getBookDetailsByID = async (req, res) => {
@@ -31,7 +38,11 @@ const updateBookDetails = async (req, res) => {
     new: true,
     runValidators: true,
   });
-  res.status(200).json({ msg: "Update successfully", book });
+  if (book) {
+    res.status(200).json({ msg: "Update successfully", book });
+  } else {
+    throw new CustomAPIError("Book update faild ", 404);
+  }
 };
 
 module.exports = {
