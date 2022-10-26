@@ -1,17 +1,17 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-  getAllAuthorDetails,
-  getAuthorDetailsByID,
-  postAuthorDetails,
-  updateAuthorDetails,
-} = require("../controllers/authorController");
+// const {
+//   getAllBookDetails,
+//   getBookDetailsByID,
+//   postBookDetails,
+//   updateBookDetails,
+// } = require("../controllers/bookController");
 
-//defult routes
-router.route("/").get(getAllAuthorDetails).post(postAuthorDetails);
+// //defult routes
+// router.route("/").get(getAllBookDetails).post(postBookDetails);
 
-//parametrized routes
-router.route("/:id").get(getAuthorDetailsByID).put(updateAuthorDetails);
+// //parametrized routes
+// router.route("/:id").get(getBookDetailsByID).put(updateBookDetails);
 
 module.exports = router;
