@@ -47,7 +47,7 @@ export default function BookList() {
                   Books
                 </Typography>
 
-                <Grid
+                {/* <Grid
                   container
                   spacing={5}
                   justifyContent="start"
@@ -65,7 +65,7 @@ export default function BookList() {
                         </Grid>
                       ))
                     : null}
-                </Grid>
+                </Grid> */}
 
                 {/* check if notes count is greater than 0 if condition match show no notes found */}
                 {books && books.length === 0 && (
