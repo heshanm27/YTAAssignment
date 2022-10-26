@@ -20,7 +20,7 @@ export default function BookList() {
     setPage(value);
   };
   async function fetchBooks() {
-    const { data } = await publicRequest.get(`book/${page}`);
+    const { data } = await publicRequest.get(`book/?page=${page}`);
     console.log(data.books);
   }
 

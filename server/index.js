@@ -3,9 +3,18 @@ const app = express();
 
 require("dotenv").config();
 require("express-async-errors");
+const cors = require("cors");
+
+//cors policy configuration
+const corsOptions = {
+  origin: "http://localhost:3000",
+  method: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
 
 //middleware configuration
 app.use(express.json());
+app.use(cors(corsOptions));
 
 //modules import
 const notFound = require("./middleware/notFound");
