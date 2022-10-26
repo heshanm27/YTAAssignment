@@ -4,6 +4,8 @@ const app = express();
 require("dotenv").config();
 require("express-async-errors");
 
-app.listen(process.env.PORT, () => {
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => {
   console.log(`Server listening on port ${process.env.PORT}`);
 });
