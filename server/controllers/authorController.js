@@ -8,7 +8,7 @@ const postAuthorDetails = async (req, res) => {};
 
 const updateAuthorDetails = async (req, res) => {};
 
-modules.exports = {
+module.exports = {
   getAllAuthorDetails,
   getAuthorDetailsByID,
   postAuthorDetails,
