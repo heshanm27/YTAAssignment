@@ -20,9 +20,9 @@ const getAllBookDetails = async (req, res) => {
 };
 
 const getBookDetailsByID = async (req, res) => {
-  const books = await bookModel.findById(req.params.id).populate("author");
-  if (books) {
-    res.status(200).json({ msg: "Book found", books });
+  const book = await bookModel.findById(req.params.id).populate("author");
+  if (book) {
+    res.status(200).json({ msg: "Book found", book });
   } else {
     throw new CustomAPIError("Book not found.", 404);
   }

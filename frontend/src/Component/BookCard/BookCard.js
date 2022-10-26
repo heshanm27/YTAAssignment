@@ -3,7 +3,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  IconButton,
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";

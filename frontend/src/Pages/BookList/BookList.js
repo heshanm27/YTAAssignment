@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { publicRequest } from "../../Axios/DefaultAxios";
 import BookCard from "../../Component/BookCard/BookCard";
-import { Box } from "@mui/system";
+
 export default function BookList() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -68,7 +68,7 @@ export default function BookList() {
                   spacing={5}
                   justifyContent="start"
                   alignItems="start"
-                  sx={{ mt: 5, textAlign: "center" }}
+                  sx={{ mt: 5 }}
                 >
                   {!loading && books.length > 0
                     ? books.map((book) => (
