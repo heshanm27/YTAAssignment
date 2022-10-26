@@ -10,23 +10,30 @@ import {
   Typography,
 } from "@mui/material";
 import { publicRequest } from "../../Axios/DefaultAxios";
+import BookCard from "../../Component/BookCard/BookCard";
 export default function BookList() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(1);
   const [page, setPage] = useState(1);
 
   const handleChange = (event, value) => {
     setPage(value);
   };
-  async function fetchBooks() {
-    const { data } = await publicRequest.get(`book/?page=${page}`);
-    console.log(data.books);
-  }
 
   useEffect(() => {
+    async function fetchBooks() {
+      try {
+        const { data } = await publicRequest.get(`book/?page=${page}`);
+        console.log(data);
+        setCount(data.bookPageCount);
+        setBooks(data.books);
+      } catch (err) {
+        console.log(err);
+      }
+    }
     fetchBooks();
-  }, []);
+  }, [page]);
 
   return (
     <>
@@ -35,13 +42,33 @@ export default function BookList() {
         <Stack direction="row" sx={{ padding: { xs: 2, sm: 5 } }}>
           <Grid container>
             <Grid item xs={12} sm={12}>
-              <Paper sx={{ padding: { xs: 2, sm: 5 }, mt: 5 }}>
+              <Paper sx={{ padding: { xs: 2, sm: 5 }, mt: 5, mb: 5 }}>
                 <Typography color="primary" variant="h4" align="center">
                   Books
                 </Typography>
 
+                <Grid
+                  container
+                  spacing={5}
+                  justifyContent="start"
+                  alignItems="center"
+                  sx={{ mt: 5 }}
+                >
+                  {!loading && books.length > 0
+                    ? books.map((book) => (
+                        <Grid item xs={12} sm={6} key={book._id}>
+                          <BookCard
+                            key={book._id}
+                            title={book.title}
+                            isbn={book.isbn}
+                          />
+                        </Grid>
+                      ))
+                    : null}
+                </Grid>
+
                 {/* check if notes count is greater than 0 if condition match show no notes found */}
-                {/* {notes && notes.length === 0 && (
+                {books && books.length === 0 && (
                   <Typography
                     sx={{ mt: 5 }}
                     variant="body2"
@@ -50,7 +77,7 @@ export default function BookList() {
                   >
                     No data to show{" "}
                   </Typography>
-                )} */}
+                )}
 
                 {/* if loading state is true show  CircularProgress*/}
                 {loading && (

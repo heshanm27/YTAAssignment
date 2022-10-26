@@ -4,7 +4,7 @@ const { CustomAPIError } = require("../errors/errorClass");
 const getAllBookDetails = async (req, res) => {
   //get query values and set default values if not provided
   const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 1;
+  const limit = Number(req.query.limit) || 5;
   //calculate skip value
   const skip = (page - 1) * limit;
 
@@ -20,7 +20,7 @@ const getAllBookDetails = async (req, res) => {
 };
 
 const getBookDetailsByID = async (req, res) => {
-  const books = await bookModel.findById(req.params.id);
+  const books = await bookModel.findById(req.params.id).populate("author");
   if (books) {
     res.status(200).json({ msg: "Book found", books });
   } else {
