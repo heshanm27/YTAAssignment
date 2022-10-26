@@ -1,19 +1,17 @@
 const authorModel = require("../models/authorModel");
 const { CustomAPIError } = require("../errors/errorClass");
 const getAllAuthorDetails = async (req, res) => {
-  //get query values and set default values if not provided
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 1;
-  //calculate skip value
-  const skip = (page - 1) * limit;
-
-  const authors = await authorModel.find({}).skip(skip).limit(limit);
+  const authors = await authorModel.find({});
   res.status(200).json({ authors });
 };
 
 const getAuthorDetailsByID = async (req, res) => {
   const author = await authorModel.findById(req.params.id);
-  res.status(200).json({ msg: "Author found", author });
+  if (author) {
+    res.status(200).json({ msg: "Author found", author });
+  } else {
+    throw new CustomAPIError("Author not found.", 404);
+  }
 };
 
 const postAuthorDetails = async (req, res) => {
