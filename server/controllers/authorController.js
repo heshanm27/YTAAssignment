@@ -20,18 +20,14 @@ const postAuthorDetails = async (req, res) => {
 };
 
 const updateAuthorDetails = async (req, res) => {
-  try {
-    const author = await authorModel.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+  const author = await authorModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  if (author) {
     res.status(200).json({ msg: "Update successfully", author });
-  } catch (error) {
-    throw new CustomAPIError("Author not found.", 404);
+  } else {
+    throw new CustomAPIError("Author update faild ", 404);
   }
 };
 
