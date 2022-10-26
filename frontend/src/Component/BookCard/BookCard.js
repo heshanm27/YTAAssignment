@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Card,
   CardActionArea,
   CardContent,
@@ -8,11 +9,14 @@ import {
 import { Stack } from "@mui/system";
 import React from "react";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
+import { useNavigate } from "react-router";
+import { blueGrey } from "@mui/material/colors";
 
-export default function BookCard({ title, isbn }) {
+export default function BookCard({ title, isbn, id }) {
+  const navigate = useNavigate();
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
+      <CardActionArea onClick={() => navigate(`/book/${id}`)}>
         <CardContent>
           <Stack direction="row">
             <Stack direction="column">
@@ -29,9 +33,9 @@ export default function BookCard({ title, isbn }) {
               justifyContent="center"
               alignItems="center"
             >
-              <IconButton color="primary" aria-label="next">
+              <Avatar sx={{ bgcolor: blueGrey[500] }}>
                 <ReadMoreIcon />
-              </IconButton>
+              </Avatar>
             </Stack>
           </Stack>
         </CardContent>
