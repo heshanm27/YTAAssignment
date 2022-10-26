@@ -6,7 +6,7 @@ require("express-async-errors");
 
 //modules import
 const notFound = require("./middleware/notFound");
-
+const connectDB = require("./dbConnection/dbConnection");
 //Router module imports
 const authorRoute = require("./routes/authorRoute");
 const bookRoute = require("./routes/bookRoute");
@@ -21,6 +21,19 @@ app.use(notFound);
 //If PORT environment Variable Not avaliable use Port 5000
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${process.env.PORT}`);
-});
+/**
+ * @description start express server and start Mongodb atlas connection
+ */
+const startServer = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(port, () => {
+      console.log(`Server listening on port ${process.env.PORT}`);
+    });
+  } catch (err) {
+    console.log("Connection Issue", err);
+  }
+};
+
+//call to start the server
+startServer();
