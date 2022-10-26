@@ -4,9 +4,14 @@ const app = express();
 require("dotenv").config();
 require("express-async-errors");
 
+//middleware configuration
+app.use(express.json());
+
 //modules import
 const notFound = require("./middleware/notFound");
 const connectDB = require("./dbConnection/dbConnection");
+const errorHadnler = require("./middleware/error_handle");
+
 //Router module imports
 const authorRoute = require("./routes/authorRoute");
 const bookRoute = require("./routes/bookRoute");
@@ -17,6 +22,9 @@ app.use("/api/v1/book", bookRoute);
 
 // Not found Route Middleware
 app.use(notFound);
+
+// Custome Error Handler Middleware
+app.use(errorHadnler);
 
 //If PORT environment Variable Not avaliable use Port 5000
 const port = process.env.PORT || 5000;

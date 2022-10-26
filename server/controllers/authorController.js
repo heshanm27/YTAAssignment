@@ -1,19 +1,36 @@
 const authorModel = require("../models/authorModel");
-
+const { CustomAPIError } = require("../errors/errorClass");
 const getAllAuthorDetails = async (req, res) => {
-  res.status(200).json("getAuthor data");
+  const authors = await authorModel.find({});
+  res.status(200).json({ authors });
 };
 
 const getAuthorDetailsByID = async (req, res) => {
-  res.status(200).json("getAuthor data by id");
+  const author = await authorModel.findById(req.params.id);
+  res.status(200).json({ msg: "Author found", author });
 };
 
 const postAuthorDetails = async (req, res) => {
-  res.status(200).json("post author data");
+  console.log(req.body);
+  //   const author = await authorModel.create(req.body);
+  //   res.status(200).json({ msg: "Author created successfully", author });
+  res.status(200).json({ msg: req.body });
 };
 
 const updateAuthorDetails = async (req, res) => {
-  res.status(200).json("update author data");
+  try {
+    const author = await authorModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.status(200).json({ msg: "Update successfully", author });
+  } catch (error) {
+    throw new CustomAPIError("Author not found", 404);
+  }
 };
 
 module.exports = {
