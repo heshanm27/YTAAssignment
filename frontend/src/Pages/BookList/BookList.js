@@ -3,6 +3,7 @@ import Container from "@mui/material/Container";
 import {
   CircularProgress,
   CssBaseline,
+  Divider,
   Grid,
   Pagination,
   Paper,
@@ -11,9 +12,10 @@ import {
 } from "@mui/material";
 import { publicRequest } from "../../Axios/DefaultAxios";
 import BookCard from "../../Component/BookCard/BookCard";
+import { Box } from "@mui/system";
 export default function BookList() {
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(1);
   const [page, setPage] = useState(1);
 
@@ -22,12 +24,14 @@ export default function BookList() {
   };
 
   useEffect(() => {
+    setLoading(true);
     async function fetchBooks() {
       try {
         const { data } = await publicRequest.get(`book/?page=${page}`);
         console.log(data);
         setCount(data.bookPageCount);
         setBooks(data.books);
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -42,21 +46,33 @@ export default function BookList() {
         <Stack direction="row" sx={{ padding: { xs: 2, sm: 5 } }}>
           <Grid container>
             <Grid item xs={12} sm={12}>
-              <Paper sx={{ padding: { xs: 2, sm: 5 }, mt: 5, mb: 5 }}>
+              <Paper
+                sx={{
+                  paddingLeft: { xs: 5, sm: 12 },
+                  pb: { xs: 5, sm: 5 },
+                  mt: 5,
+                  mb: 5,
+                }}
+              >
                 <Typography color="primary" variant="h4" align="center">
                   Books
                 </Typography>
-
+                <Divider
+                  orientation="horizontal"
+                  flexItem
+                  variant="middle"
+                  textAlign="center"
+                />
                 <Grid
                   container
                   spacing={5}
                   justifyContent="start"
-                  alignItems="center"
-                  sx={{ mt: 5 }}
+                  alignItems="start"
+                  sx={{ mt: 5, textAlign: "center" }}
                 >
                   {!loading && books.length > 0
                     ? books.map((book) => (
-                        <Grid item xs={12} sm={6} key={book._id}>
+                        <Grid item xs={12} sm={12} md={6} key={book._id}>
                           <BookCard
                             key={book._id}
                             title={book.title}
@@ -69,7 +85,7 @@ export default function BookList() {
                 </Grid>
 
                 {/* check if notes count is greater than 0 if condition match show no notes found */}
-                {books && books.length === 0 && (
+                {!loading && books && books.length === 0 && (
                   <Typography
                     sx={{ mt: 5 }}
                     variant="body2"
