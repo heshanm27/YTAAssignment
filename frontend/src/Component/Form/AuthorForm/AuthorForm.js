@@ -26,33 +26,41 @@ export default function AuthorForm({ author, setNotify, setOpen }) {
     return Object.values(temp).every((x) => x === "");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (validate()) {
-    const author = {
-      firstName: firstNameRef.current.value,
-      lastName: lastNameRef.current.value,
-    };
-    try {
-      const { data } = publicRequest.post("author", author);
-      console.log(data);
-      setNotify({
-        isOpen: true,
-        message: "Author added successfully",
-        type: "success",
-        title: "Success",
-      });
-      setOpen(false);
-    } catch (err) {
-      setNotify({
-        isOpen: true,
-        message: "Author not added",
-        type: "error",
-        title: "Error",
-      });
+    if (validate()) {
+      const author = {
+        firstName: firstNameRef.current.value,
+        lastName: lastNameRef.current.value,
+      };
+      try {
+        const { data } = await publicRequest.post("author", author);
+        console.log(data);
+        setNotify({
+          isOpen: true,
+          message: "Author added successfully",
+          type: "success",
+          title: "Success",
+        });
+        setOpen(false);
+      } catch ({ response }) {
+        if (response.status === 400) {
+          setNotify({
+            isOpen: true,
+            message: response.data.msg,
+            type: "error",
+            title: "Error",
+          });
+        } else {
+          setNotify({
+            isOpen: true,
+            message: "Action unsuccessful",
+            type: "error",
+            title: "Error",
+          });
+        }
+      }
     }
-
-    // }
   };
 
   return (

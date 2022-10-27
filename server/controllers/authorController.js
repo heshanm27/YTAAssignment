@@ -21,21 +21,29 @@ const postAuthorDetails = async (req, res) => {
   } catch (err) {
     if (err.name === "ValidationError") {
       throw new BadRequestError(err.message);
-    } else {
-      console.log("normal error");
     }
   }
 };
 
 const updateAuthorDetails = async (req, res) => {
-  const author = await authorModel.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-  if (author) {
-    res.status(200).json({ msg: "Update successfully", author });
-  } else {
-    throw new BadRequestError("Author update faild");
+  try {
+    const author = await authorModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (author) {
+      res.status(200).json({ msg: "Update successfully", author });
+    } else {
+      throw new BadRequestError("Author update faild");
+    }
+  } catch (err) {
+    if (err.name === "ValidationError") {
+      throw new BadRequestError(err.message);
+    }
   }
 };
 

@@ -8,12 +8,10 @@ const { CustomAPIError } = require("../errors/errorClass");
  * @returns  response with status code and error message
  */
 const errorHandlerMiddleware = (err, req, res, next) => {
-  console.log(err);
   if (err instanceof CustomAPIError) {
-    console.log("Custom error");
     return res.status(err.statusCode).json({ msg: err.message });
   }
-  console.log("Default error");
+
   return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
     error: err.message,
     msg: "Something went wrong, please try again later",
