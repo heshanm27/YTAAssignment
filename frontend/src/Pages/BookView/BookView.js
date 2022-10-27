@@ -23,7 +23,7 @@ export default function BookView() {
   const [loading, setLoading] = useState(true);
   const [openBookDialog, setOpenBookDialog] = useState(false);
   const [openAuthorDialog, setOpenAuthorDialog] = useState(false);
-
+  const [refetch, setRefetch] = useState(true);
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -37,9 +37,10 @@ export default function BookView() {
       const { data } = await publicRequest.get(`book/${id}`);
       setBookDetails(data.book);
       setLoading(false);
+      setRefetch(false);
     }
     getBookDetails();
-  }, [id, openBookDialog, openAuthorDialog]);
+  }, [id, refetch]);
 
   return (
     <>
@@ -158,6 +159,7 @@ export default function BookView() {
             author={bookDetails.author}
             setNotify={setNotify}
             setOpen={setOpenAuthorDialog}
+            setRefetch={setRefetch}
           />
         </CustomeDialog>
       </Container>

@@ -3,7 +3,7 @@ import { Stack } from "@mui/system";
 import React, { useEffect, useRef, useState } from "react";
 import { publicRequest } from "../../../Axios/DefaultAxios";
 
-export default function AuthorForm({ author, setNotify, setOpen }) {
+export default function AuthorForm({ author, setNotify, setOpen, setRefetch }) {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const [error, setErrors] = useState(false);
@@ -39,6 +39,7 @@ export default function AuthorForm({ author, setNotify, setOpen }) {
       firstNameRef.current.value = "";
       lastNameRef.current.value = "";
       setOpen(false);
+      setRefetch(true);
     } catch ({ response }) {
       setNotify({
         isOpen: true,
@@ -65,6 +66,7 @@ export default function AuthorForm({ author, setNotify, setOpen }) {
       firstNameRef.current.value = "";
       lastNameRef.current.value = "";
       setOpen(false);
+      setRefetch(true);
     } catch ({ response }) {
       setNotify({
         isOpen: true,
