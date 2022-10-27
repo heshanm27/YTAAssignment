@@ -153,7 +153,7 @@ export default function BookView() {
           setOpen={setOpenAuthorDialog}
           title="Update Author Details"
         >
-          <AuthorForm />
+          <AuthorForm setNotify={setNotify} setOpen={setOpenBookDialog} />
         </CustomeDialog>
       </Container>
       <CustomSnackBar notify={notify} setNotify={setNotify} />
