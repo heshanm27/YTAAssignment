@@ -1,6 +1,6 @@
 import { Button, Container, TextField } from "@mui/material";
 import { Stack } from "@mui/system";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { publicRequest } from "../../../Axios/DefaultAxios";
 
 export default function AuthorForm({ author, setNotify, setOpen }) {
@@ -26,43 +26,79 @@ export default function AuthorForm({ author, setNotify, setOpen }) {
     return Object.values(temp).every((x) => x === "");
   };
 
+  const handleInsertNewAuthor = async (newAuthor) => {
+    try {
+      const { data } = await publicRequest.post("author", newAuthor);
+      console.log(data);
+      setNotify({
+        isOpen: true,
+        message: "Author added successfully",
+        type: "success",
+        title: "Success",
+      });
+      firstNameRef.current.value = "";
+      lastNameRef.current.value = "";
+      setOpen(false);
+    } catch ({ response }) {
+      setNotify({
+        isOpen: true,
+        message: response.data.msg,
+        type: "error",
+        title: "Error",
+      });
+    }
+  };
+
+  const handleUpdateAuthor = async (newAuthor) => {
+    try {
+      const { data } = await publicRequest.put(
+        `author/${author._id}`,
+        newAuthor
+      );
+      console.log(data);
+      setNotify({
+        isOpen: true,
+        message: "Author updated successfully",
+        type: "success",
+        title: "Success",
+      });
+      firstNameRef.current.value = "";
+      lastNameRef.current.value = "";
+      setOpen(false);
+    } catch ({ response }) {
+      setNotify({
+        isOpen: true,
+        message: response.data.msg,
+        type: "error",
+        title: "Error",
+      });
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      const author = {
+      const newAuthor = {
         firstName: firstNameRef.current.value,
         lastName: lastNameRef.current.value,
       };
-      try {
-        const { data } = await publicRequest.post("author", author);
-        console.log(data);
-        setNotify({
-          isOpen: true,
-          message: "Author added successfully",
-          type: "success",
-          title: "Success",
-        });
-        setOpen(false);
-      } catch ({ response }) {
-        if (response.status === 400) {
-          setNotify({
-            isOpen: true,
-            message: response.data.msg,
-            type: "error",
-            title: "Error",
-          });
-        } else {
-          setNotify({
-            isOpen: true,
-            message: "Action unsuccessful",
-            type: "error",
-            title: "Error",
-          });
-        }
+
+      if (author) {
+        console.log("update");
+        handleUpdateAuthor(newAuthor);
+      } else {
+        console.log("insert");
+        handleInsertNewAuthor(newAuthor);
       }
     }
   };
 
+  useEffect(() => {
+    if (author) {
+      firstNameRef.current.value = author.firstName;
+      lastNameRef.current.value = author.lastName;
+    }
+  }, [author]);
+  console.log(author);
   return (
     <Container>
       <form onSubmit={handleSubmit}>
@@ -93,7 +129,11 @@ export default function AuthorForm({ author, setNotify, setOpen }) {
             inputRef={lastNameRef}
           />
 
-          <Button type="submit">Add Author</Button>
+          {author ? (
+            <Button type="submit">Update Author</Button>
+          ) : (
+            <Button type="submit">Add Author</Button>
+          )}
         </Stack>
       </form>
     </Container>

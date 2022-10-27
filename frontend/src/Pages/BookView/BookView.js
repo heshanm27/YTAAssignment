@@ -39,7 +39,8 @@ export default function BookView() {
       setLoading(false);
     }
     getBookDetails();
-  }, [id]);
+  }, [id, openBookDialog, openAuthorDialog]);
+
   return (
     <>
       <CssBaseline />
@@ -153,7 +154,11 @@ export default function BookView() {
           setOpen={setOpenAuthorDialog}
           title="Update Author Details"
         >
-          <AuthorForm setNotify={setNotify} setOpen={setOpenBookDialog} />
+          <AuthorForm
+            author={bookDetails.author}
+            setNotify={setNotify}
+            setOpen={setOpenAuthorDialog}
+          />
         </CustomeDialog>
       </Container>
       <CustomSnackBar notify={notify} setNotify={setNotify} />
