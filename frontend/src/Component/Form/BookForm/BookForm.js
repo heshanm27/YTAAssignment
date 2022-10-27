@@ -4,25 +4,26 @@ import React, { useEffect, useRef, useState } from "react";
 import { publicRequest } from "../../../Axios/DefaultAxios";
 import CustomSelect from "../../CustomSelect/CustomSelect";
 
+const initBook = {
+  title: "",
+  isbn: "",
+  author: "",
+};
 export default function BookForm({ book, setNotify, setOpen }) {
-  const bookTitleRef = useRef();
-  const bookISBNRef = useRef();
-  const [author, setAuthor] = useState("");
+  const [bookValues, setBookValues] = useState(initBook);
   const [authorOptions, setAuthorOptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setErrors] = useState(false);
 
   const validate = () => {
     let temp = {};
-    temp.bookTitle =
-      bookTitleRef.current.value === "" ? "Please book title" : "";
+    temp.bookTitle = bookValues.title === "" ? "Please book title" : "";
     temp.bookISBN =
-      (bookISBNRef.current.value === "" ? "Please enter book ISBN" : "") ||
-      (bookISBNRef.current.value.length !== 10 &&
-      bookISBNRef.current.value.length !== 14
+      (bookValues.isbn === "" ? "Please enter book ISBN" : "") ||
+      (bookValues.isbn !== 10 && bookValues.isbn !== 14
         ? "ISBN must be 14 or 11 digits"
         : "");
-    temp.author = author === "" ? "Please select author" : "";
+    temp.author = bookValues.author === "" ? "Please select author" : "";
 
     setErrors({
       ...temp,
@@ -32,11 +33,15 @@ export default function BookForm({ book, setNotify, setOpen }) {
   };
 
   const handlehanges = (e) => {
-    setAuthor(e.target.value);
+    const { name, value } = e.target;
+    setBookValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-  const handleInsertNewBook = async (newBook) => {
+  const handleInsertNewBook = async () => {
     try {
-      const { data } = await publicRequest.post("book", newBook);
+      const { data } = await publicRequest.post("book", bookValues);
       console.log(data);
       setNotify({
         isOpen: true,
@@ -44,8 +49,7 @@ export default function BookForm({ book, setNotify, setOpen }) {
         type: "success",
         title: "Success",
       });
-      bookTitleRef.current.value = "";
-      bookISBNRef.current.value = "";
+      setBookValues(initBook);
       setOpen(false);
     } catch ({ response }) {
       setNotify({
@@ -57,9 +61,12 @@ export default function BookForm({ book, setNotify, setOpen }) {
     }
   };
 
-  const handleUpdateBook = async (newBook) => {
+  const handleUpdateBook = async () => {
     try {
-      const { data } = await publicRequest.put(`author/${book._id}`, newBook);
+      const { data } = await publicRequest.put(
+        `author/${book._id}`,
+        bookValues
+      );
       console.log(data);
       setNotify({
         isOpen: true,
@@ -67,8 +74,7 @@ export default function BookForm({ book, setNotify, setOpen }) {
         type: "success",
         title: "Success",
       });
-      bookTitleRef.current.value = "";
-      bookISBNRef.current.value = "";
+      setBookValues(initBook);
       setOpen(false);
     } catch ({ response }) {
       setNotify({
@@ -82,16 +88,10 @@ export default function BookForm({ book, setNotify, setOpen }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      const newBook = {
-        title: bookTitleRef.current.value,
-        isbn: bookISBNRef.current.value,
-        author: author,
-      };
-
       if (book) {
-        handleUpdateBook(newBook);
+        handleUpdateBook();
       } else {
-        handleInsertNewBook(newBook);
+        handleInsertNewBook();
       }
     }
   };
@@ -99,20 +99,22 @@ export default function BookForm({ book, setNotify, setOpen }) {
   useEffect(() => {
     setLoading(true);
 
+    if (book) {
+      setBookValues({
+        title: book.title,
+        isbn: book.isbn,
+        author: book.author._id,
+      });
+    }
     async function getAuthorOptions() {
       const { data } = await publicRequest.get("author");
       setAuthorOptions(data.authors);
-
       setLoading(false);
     }
+
     getAuthorOptions();
-    if (book) {
-      //   bookTitleRef.current.value = book.title;
-      //   bookISBNRef.current.value = book.isbn;
-      setAuthor(book.author._id);
-    }
   }, [book]);
-  console.log(bookISBNRef);
+
   return (
     <Container>
       {!loading ? (
@@ -125,27 +127,29 @@ export default function BookForm({ book, setNotify, setOpen }) {
           >
             <TextField
               fullWidth
-              id="outlined-required"
+              name="title"
               label="Book Title"
               helperText={
                 error.bookTitle ? error.bookTitle : "Enter book title"
               }
               error={error.bookTitle ? true : false}
-              inputRef={bookTitleRef}
+              value={bookValues.title}
+              onChange={handlehanges}
             />
             <TextField
-              id="outlined-required"
+              name="isbn"
               label="Book ISBN"
               fullWidth
               helperText={error.bookISBN ? error.bookISBN : "Enter book ISBN"}
               error={error.bookISBN ? true : false}
-              inputRef={bookISBNRef}
+              value={bookValues.isbn}
+              onChange={handlehanges}
             />
             <CustomSelect
-              name="Author"
+              name="author"
               label="Book Author"
               options={authorOptions}
-              value={author}
+              value={bookValues.author}
               handleChanges={handlehanges}
               error={error.author ? true : false}
               helperText={error.author ? error.author : "Select author"}
