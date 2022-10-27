@@ -32,16 +32,15 @@ export default function BookForm({ book, setNotify, setOpen }) {
   };
 
   const handlehanges = (e) => {
-    console.log(e.target.value);
     setAuthor(e.target.value);
   };
-  const handleInsertNewAuthor = async (newAuthor) => {
+  const handleInsertNewAuthor = async (newBook) => {
     try {
-      const { data } = await publicRequest.post("author", newAuthor);
+      const { data } = await publicRequest.post("book", newBook);
       console.log(data);
       setNotify({
         isOpen: true,
-        message: "Author added successfully",
+        message: "Book added successfully",
         type: "success",
         title: "Success",
       });
@@ -58,13 +57,13 @@ export default function BookForm({ book, setNotify, setOpen }) {
     }
   };
 
-  const handleUpdateAuthor = async (newAuthor) => {
+  const handleUpdateAuthor = async (newBook) => {
     try {
-      const { data } = await publicRequest.put(`author/${book._id}`, newAuthor);
+      const { data } = await publicRequest.put(`author/${book._id}`, newBook);
       console.log(data);
       setNotify({
         isOpen: true,
-        message: "Author updated successfully",
+        message: "Book updated successfully",
         type: "success",
         title: "Success",
       });
@@ -83,17 +82,16 @@ export default function BookForm({ book, setNotify, setOpen }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      const newAuthor = {
-        bookTitle: bookTitleRef.current.value,
-        bookISBN: bookISBNRef.current.value,
+      const newBook = {
+        title: bookTitleRef.current.value,
+        isbn: bookISBNRef.current.value,
+        author: author,
       };
 
       if (book) {
-        console.log("update");
-        handleUpdateAuthor(newAuthor);
+        handleUpdateAuthor(newBook);
       } else {
-        console.log("insert");
-        handleInsertNewAuthor(newAuthor);
+        handleInsertNewAuthor(newBook);
       }
     }
   };
@@ -101,8 +99,9 @@ export default function BookForm({ book, setNotify, setOpen }) {
   useEffect(() => {
     setLoading(true);
     if (book) {
-      //   bookTitleRef.current.value = author.firstName;
-      //   bookISBNRef.current.value = author.lastName;
+      bookTitleRef.current.value = book.title;
+      //   bookISBNRef.current.value = book.isbn;
+      setAuthor(book.author._id);
     }
     async function getAuthorOptions() {
       const { data } = await publicRequest.get("author");
@@ -111,7 +110,7 @@ export default function BookForm({ book, setNotify, setOpen }) {
     }
     getAuthorOptions();
   }, [book]);
-  console.log(error);
+  console.log(book);
   return (
     <Container>
       {!loading ? (
