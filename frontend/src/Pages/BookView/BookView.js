@@ -151,7 +151,7 @@ export default function BookView() {
           title="Update Book Details"
         >
           <BookForm
-            book={bookDetails}
+            // book={bookDetails}
             setNotify={setNotify}
             setOpen={setOpenAuthorDialog}
           />

@@ -34,7 +34,7 @@ export default function BookForm({ book, setNotify, setOpen }) {
   const handlehanges = (e) => {
     setAuthor(e.target.value);
   };
-  const handleInsertNewAuthor = async (newBook) => {
+  const handleInsertNewBook = async (newBook) => {
     try {
       const { data } = await publicRequest.post("book", newBook);
       console.log(data);
@@ -57,7 +57,7 @@ export default function BookForm({ book, setNotify, setOpen }) {
     }
   };
 
-  const handleUpdateAuthor = async (newBook) => {
+  const handleUpdateBook = async (newBook) => {
     try {
       const { data } = await publicRequest.put(`author/${book._id}`, newBook);
       console.log(data);
@@ -89,28 +89,30 @@ export default function BookForm({ book, setNotify, setOpen }) {
       };
 
       if (book) {
-        handleUpdateAuthor(newBook);
+        handleUpdateBook(newBook);
       } else {
-        handleInsertNewAuthor(newBook);
+        handleInsertNewBook(newBook);
       }
     }
   };
 
   useEffect(() => {
     setLoading(true);
-    if (book) {
-      bookTitleRef.current.value = book.title;
-      //   bookISBNRef.current.value = book.isbn;
-      setAuthor(book.author._id);
-    }
+
     async function getAuthorOptions() {
       const { data } = await publicRequest.get("author");
       setAuthorOptions(data.authors);
+
       setLoading(false);
     }
     getAuthorOptions();
+    if (book) {
+      //   bookTitleRef.current.value = book.title;
+      //   bookISBNRef.current.value = book.isbn;
+      setAuthor(book.author._id);
+    }
   }, [book]);
-  console.log(book);
+  console.log(bookISBNRef);
   return (
     <Container>
       {!loading ? (
@@ -149,9 +151,9 @@ export default function BookForm({ book, setNotify, setOpen }) {
               helperText={error.author ? error.author : "Select author"}
             />
             {book ? (
-              <Button type="submit">Update Author</Button>
+              <Button type="submit">Update Book</Button>
             ) : (
-              <Button type="submit">Add Author</Button>
+              <Button type="submit">Add Book</Button>
             )}
           </Stack>
         </form>
