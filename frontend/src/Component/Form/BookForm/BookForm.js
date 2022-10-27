@@ -107,9 +107,19 @@ export default function BookForm({ book, setNotify, setOpen, setRefetch }) {
       });
     }
     async function getAuthorOptions() {
-      const { data } = await publicRequest.get("author");
-      setAuthorOptions(data.authors);
-      setLoading(false);
+      try {
+        const { data } = await publicRequest.get("author");
+        setAuthorOptions(data.authors);
+        setLoading(false);
+      } catch ([response]) {
+        setNotify({
+          isOpen: true,
+          message: response.data.msg,
+          type: "error",
+          title: "Error",
+        });
+        setOpen(false);
+      }
     }
 
     getAuthorOptions();
