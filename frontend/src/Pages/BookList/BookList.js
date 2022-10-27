@@ -13,13 +13,20 @@ import {
 import { publicRequest } from "../../Axios/DefaultAxios";
 import BookCard from "../../Component/BookCard/BookCard";
 import NavBar from "../../Component/NavBar/NavBar";
+import CustomSnackBar from "../../Component/CustomSnackBar/CustomSnackBar";
 
 export default function BookList() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(1);
   const [page, setPage] = useState(1);
-
+  const [refetch, setRefetch] = useState(true);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
   const handleChange = (event, value) => {
     setPage(value);
   };
@@ -38,11 +45,11 @@ export default function BookList() {
       }
     }
     fetchBooks();
-  }, [page]);
+  }, [page, refetch]);
 
   return (
     <>
-      <NavBar />
+      <NavBar setNotify={setNotify} setRefetch={setRefetch} />
       <CssBaseline />
       <Container maxWidth="lg" sx={{ backgroundColor: "White" }}>
         <Stack direction="row" sx={{ padding: { xs: 2, sm: 5 } }}>
@@ -133,6 +140,7 @@ export default function BookList() {
             </Grid>
           </Grid>
         </Stack>
+        <CustomSnackBar notify={notify} setNotify={setNotify} />
       </Container>
     </>
   );
