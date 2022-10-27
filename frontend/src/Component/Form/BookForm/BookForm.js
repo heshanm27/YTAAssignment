@@ -1,12 +1,15 @@
-import { Button, Container, TextField } from "@mui/material";
+import { Button, CircularProgress, Container, TextField } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useRef, useState } from "react";
 import { publicRequest } from "../../../Axios/DefaultAxios";
+import CustomSelect from "../../CustomSelect/CustomSelect";
 
 export default function BookForm({ book, setNotify, setOpen }) {
   const bookTitleRef = useRef();
   const bookISBNRef = useRef();
-  const authorRef = useRef();
+  const [author, setAuthor] = useState("");
+  const [authorOptions, setAuthorOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setErrors] = useState(false);
 
   const validate = () => {
@@ -19,6 +22,7 @@ export default function BookForm({ book, setNotify, setOpen }) {
       bookISBNRef.current.value.length !== 14
         ? "ISBN must be 14 or 11 digits"
         : "");
+    temp.author = author === "" ? "Please select author" : "";
 
     setErrors({
       ...temp,
@@ -27,6 +31,10 @@ export default function BookForm({ book, setNotify, setOpen }) {
     return Object.values(temp).every((x) => x === "");
   };
 
+  const handlehanges = (e) => {
+    console.log(e.target.value);
+    setAuthor(e.target.value);
+  };
   const handleInsertNewAuthor = async (newAuthor) => {
     try {
       const { data } = await publicRequest.post("author", newAuthor);
@@ -91,45 +99,73 @@ export default function BookForm({ book, setNotify, setOpen }) {
   };
 
   useEffect(() => {
+    setLoading(true);
     if (book) {
       //   bookTitleRef.current.value = author.firstName;
       //   bookISBNRef.current.value = author.lastName;
     }
+    async function getAuthorOptions() {
+      const { data } = await publicRequest.get("author");
+      setAuthorOptions(data.authors);
+      setLoading(false);
+    }
+    getAuthorOptions();
   }, [book]);
-
+  console.log(error);
   return (
     <Container>
-      <form onSubmit={handleSubmit}>
+      {!loading ? (
+        <form onSubmit={handleSubmit}>
+          <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={4}
+          >
+            <TextField
+              fullWidth
+              id="outlined-required"
+              label="Book Title"
+              helperText={
+                error.bookTitle ? error.bookTitle : "Enter book title"
+              }
+              error={error.bookTitle ? true : false}
+              inputRef={bookTitleRef}
+            />
+            <TextField
+              id="outlined-required"
+              label="Book ISBN"
+              fullWidth
+              helperText={error.bookISBN ? error.bookISBN : "Enter book ISBN"}
+              error={error.bookISBN ? true : false}
+              inputRef={bookISBNRef}
+            />
+            <CustomSelect
+              name="Author"
+              label="Book Author"
+              options={authorOptions}
+              value={author}
+              handleChanges={handlehanges}
+              error={error.author ? true : false}
+              helperText={error.author ? error.author : "Select author"}
+            />
+            {book ? (
+              <Button type="submit">Update Author</Button>
+            ) : (
+              <Button type="submit">Add Author</Button>
+            )}
+          </Stack>
+        </form>
+      ) : (
         <Stack
-          direction="column"
-          justifyContent="center"
+          direction="row"
           alignItems="center"
-          spacing={4}
+          justifyContent="center"
+          sx={{ mt: 5 }}
         >
-          <TextField
-            fullWidth
-            id="outlined-required"
-            label="Book Title"
-            helperText={error.bookTitle ? error.bookTitle : "Enter book title"}
-            error={error.bookTitle ? true : false}
-            inputRef={bookTitleRef}
-          />
-          <TextField
-            id="outlined-required"
-            label="Book ISBN"
-            fullWidth
-            helperText={error.bookISBN ? error.bookISBN : "Enter book ISBN"}
-            error={error.bookISBN ? true : false}
-            inputRef={bookISBNRef}
-          />
-
-          {book ? (
-            <Button type="submit">Update Author</Button>
-          ) : (
-            <Button type="submit">Add Author</Button>
-          )}
+          <CircularProgress width="100px" color="primary" />
         </Stack>
-      </form>
+      )}
     </Container>
   );
 }
