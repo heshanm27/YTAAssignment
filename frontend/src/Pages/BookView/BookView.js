@@ -16,6 +16,7 @@ import CustomeDialog from "../../Component/CustomDialog/CustomDialog";
 import CustomSnackBar from "../../Component/CustomSnackBar/CustomSnackBar";
 import CustomTypo from "../../Component/CustomTypo/CustomTypo";
 import AuthorForm from "../../Component/Form/AuthorForm/AuthorForm";
+import BookForm from "../../Component/Form/BookForm/BookForm";
 
 export default function BookView() {
   const { id } = useParams();
@@ -148,7 +149,13 @@ export default function BookView() {
           open={openBookDialog}
           setOpen={setOpenBookDialog}
           title="Update Book Details"
-        ></CustomeDialog>
+        >
+          <BookForm
+            book={bookDetails}
+            setNotify={setNotify}
+            setOpen={setOpenAuthorDialog}
+          />
+        </CustomeDialog>
 
         <CustomeDialog
           open={openAuthorDialog}
