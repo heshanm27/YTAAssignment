@@ -1,4 +1,5 @@
 import {
+  Button,
   CircularProgress,
   Container,
   CssBaseline,
@@ -104,6 +105,16 @@ export default function BookView() {
                     <CircularProgress width="100px" color="primary" />
                   </Stack>
                 )}
+
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  spacing={3}
+                  sx={{ mt: 5 }}
+                >
+                  <Button variant="outlined">Update Book Details</Button>
+                  <Button variant="outlined">Update Author Details</Button>
+                </Stack>
               </Paper>
             </Grid>
           </Grid>
