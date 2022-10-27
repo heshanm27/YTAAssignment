@@ -12,12 +12,15 @@ import {
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { publicRequest } from "../../Axios/DefaultAxios";
+import CustomeDialog from "../../Component/CustomDialog/CustomDialog";
 import CustomTypo from "../../Component/CustomTypo/CustomTypo";
 
 export default function BookView() {
   const { id } = useParams();
   const [bookDetails, setBookDetails] = useState({});
   const [loading, setLoading] = useState(true);
+  const [openBookDialog, setOpenBookDialog] = useState(false);
+  const [openAuthorDialog, setOpenAuthorDialog] = useState(false);
   useEffect(() => {
     setLoading(true);
     async function getBookDetails() {
@@ -112,13 +115,35 @@ export default function BookView() {
                   spacing={3}
                   sx={{ mt: 5 }}
                 >
-                  <Button variant="outlined">Update Book Details</Button>
-                  <Button variant="outlined">Update Author Details</Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => setOpenBookDialog(true)}
+                  >
+                    Update Book Details
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => setOpenAuthorDialog(true)}
+                  >
+                    Update Author Details
+                  </Button>
                 </Stack>
               </Paper>
             </Grid>
           </Grid>
         </Stack>
+
+        <CustomeDialog
+          open={openBookDialog}
+          setOpen={setOpenBookDialog}
+          title="Update Book Details"
+        ></CustomeDialog>
+
+        <CustomeDialog
+          open={openAuthorDialog}
+          setOpen={setOpenAuthorDialog}
+          title="Update Author Details"
+        ></CustomeDialog>
       </Container>
       ;
     </>
