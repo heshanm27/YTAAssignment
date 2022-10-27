@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { publicRequest } from "../../Axios/DefaultAxios";
 import CustomeDialog from "../../Component/CustomDialog/CustomDialog";
+import CustomSnackBar from "../../Component/CustomSnackBar/CustomSnackBar";
 import CustomTypo from "../../Component/CustomTypo/CustomTypo";
 import AuthorForm from "../../Component/Form/AuthorForm/AuthorForm";
 
@@ -22,6 +23,13 @@ export default function BookView() {
   const [loading, setLoading] = useState(true);
   const [openBookDialog, setOpenBookDialog] = useState(false);
   const [openAuthorDialog, setOpenAuthorDialog] = useState(false);
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -148,7 +156,7 @@ export default function BookView() {
           <AuthorForm />
         </CustomeDialog>
       </Container>
-      ;
+      <CustomSnackBar notify={notify} setNotify={setNotify} />
     </>
   );
 }

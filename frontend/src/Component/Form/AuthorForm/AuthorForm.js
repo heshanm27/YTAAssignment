@@ -3,10 +3,11 @@ import { Stack } from "@mui/system";
 import React, { useRef, useState } from "react";
 import { publicRequest } from "../../../Axios/DefaultAxios";
 
-export default function AuthorForm({ author }) {
+export default function AuthorForm({ author, setNotify }) {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const [error, setErrors] = useState(false);
+
   const validate = () => {
     let temp = {};
     temp.firstName =

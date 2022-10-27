@@ -1,9 +1,7 @@
 import React from "react";
 import { Alert, AlertTitle } from "@mui/material";
 import { Snackbar } from "@mui/material";
-export default function CustomSnackBar(props) {
-  const { notify, setNotify } = props;
-
+export default function CustomSnackBar({ notify, setNotify }) {
   const handleClose = () => {
     setNotify({
       ...notify,
