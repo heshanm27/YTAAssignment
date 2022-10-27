@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { publicRequest } from "../../Axios/DefaultAxios";
 import BookCard from "../../Component/BookCard/BookCard";
+import NavBar from "../../Component/NavBar/NavBar";
 
 export default function BookList() {
   const [books, setBooks] = useState([]);
@@ -41,6 +42,7 @@ export default function BookList() {
 
   return (
     <>
+      <NavBar />
       <CssBaseline />
       <Container maxWidth="lg" sx={{ backgroundColor: "White" }}>
         <Stack direction="row" sx={{ padding: { xs: 2, sm: 5 } }}>
