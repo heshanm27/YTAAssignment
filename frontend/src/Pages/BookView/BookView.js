@@ -14,6 +14,7 @@ import { useParams } from "react-router";
 import { publicRequest } from "../../Axios/DefaultAxios";
 import CustomeDialog from "../../Component/CustomDialog/CustomDialog";
 import CustomTypo from "../../Component/CustomTypo/CustomTypo";
+import AuthorForm from "../../Component/Form/AuthorForm/AuthorForm";
 
 export default function BookView() {
   const { id } = useParams();
@@ -21,6 +22,7 @@ export default function BookView() {
   const [loading, setLoading] = useState(true);
   const [openBookDialog, setOpenBookDialog] = useState(false);
   const [openAuthorDialog, setOpenAuthorDialog] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     async function getBookDetails() {
@@ -30,7 +32,6 @@ export default function BookView() {
     }
     getBookDetails();
   }, [id]);
-  console.log(bookDetails);
   return (
     <>
       <CssBaseline />
@@ -143,7 +144,9 @@ export default function BookView() {
           open={openAuthorDialog}
           setOpen={setOpenAuthorDialog}
           title="Update Author Details"
-        ></CustomeDialog>
+        >
+          <AuthorForm />
+        </CustomeDialog>
       </Container>
       ;
     </>
