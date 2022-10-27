@@ -10,7 +10,7 @@ import React from "react";
 export default function CustomSelect({
   label,
   error,
-  errorsMsg,
+  helperText,
   value,
   handleChanges,
   options,
@@ -41,7 +41,7 @@ export default function CustomSelect({
           })}
         </Select>
 
-        <FormHelperText>{error ? errorsMsg : "Select Author"}</FormHelperText>
+        <FormHelperText>{helperText}</FormHelperText>
       </FormControl>
     </>
   );
