@@ -1,6 +1,6 @@
 import { Button, CircularProgress, Container, TextField } from "@mui/material";
 import { Stack } from "@mui/system";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { publicRequest } from "../../../Axios/DefaultAxios";
 import CustomSelect from "../../CustomSelect/CustomSelect";
 
@@ -9,7 +9,7 @@ const initBook = {
   isbn: "",
   author: "",
 };
-export default function BookForm({ book, setNotify, setOpen }) {
+export default function BookForm({ book, setNotify, setOpen, setRefetch }) {
   const [bookValues, setBookValues] = useState(initBook);
   const [authorOptions, setAuthorOptions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ export default function BookForm({ book, setNotify, setOpen }) {
     temp.bookTitle = bookValues.title === "" ? "Please book title" : "";
     temp.bookISBN =
       (bookValues.isbn === "" ? "Please enter book ISBN" : "") ||
-      (bookValues.isbn !== 10 && bookValues.isbn !== 14
+      (bookValues.isbn.length !== 10 && bookValues.isbn.length !== 14
         ? "ISBN must be 14 or 11 digits"
         : "");
     temp.author = bookValues.author === "" ? "Please select author" : "";
@@ -34,6 +34,7 @@ export default function BookForm({ book, setNotify, setOpen }) {
 
   const handlehanges = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setBookValues((prev) => ({
       ...prev,
       [name]: value,
@@ -51,6 +52,7 @@ export default function BookForm({ book, setNotify, setOpen }) {
       });
       setBookValues(initBook);
       setOpen(false);
+      setRefetch(true);
     } catch ({ response }) {
       setNotify({
         isOpen: true,
@@ -63,10 +65,7 @@ export default function BookForm({ book, setNotify, setOpen }) {
 
   const handleUpdateBook = async () => {
     try {
-      const { data } = await publicRequest.put(
-        `author/${book._id}`,
-        bookValues
-      );
+      const { data } = await publicRequest.put(`book/${book._id}`, bookValues);
       console.log(data);
       setNotify({
         isOpen: true,
@@ -76,6 +75,7 @@ export default function BookForm({ book, setNotify, setOpen }) {
       });
       setBookValues(initBook);
       setOpen(false);
+      setRefetch(true);
     } catch ({ response }) {
       setNotify({
         isOpen: true,

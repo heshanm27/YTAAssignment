@@ -10,6 +10,7 @@ import React from "react";
 export default function CustomSelect({
   label,
   error,
+  name,
   helperText,
   value,
   handleChanges,
@@ -28,6 +29,7 @@ export default function CustomSelect({
           labelId="custom-select"
           id="custom-select-input"
           value={value}
+          name={name}
           onChange={handleChanges}
           label={label}
         >
