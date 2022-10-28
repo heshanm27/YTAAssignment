@@ -170,7 +170,9 @@ export default function BookForm({ book, setNotify, setOpen, setRefetch }) {
                 Update Book
               </Button>
             ) : (
-              <Button type="submit">Add Book</Button>
+              <Button data-testid="addBtn" type="submit">
+                Add Book
+              </Button>
             )}
           </Stack>
         </form>

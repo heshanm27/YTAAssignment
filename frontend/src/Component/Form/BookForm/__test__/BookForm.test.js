@@ -17,10 +17,20 @@ const MockAuthorForm = () => {
     />
   );
 };
+
+const MockAddAuthorForm = () => {
+  return <BookForm setNotify={() => {}} setOpen={true} setRefetch={false} />;
+};
 describe("BookCard", () => {
-  test("should render BookCard component", async () => {
+  test("should render BookCard component and update btn", async () => {
     render(<MockAuthorForm />);
     const text = await screen.findByTestId("UpdateBtn");
+    expect(text).toBeInTheDocument();
+  });
+
+  test("should render BookCard component and add btn", async () => {
+    render(<MockAddAuthorForm />);
+    const text = await screen.findByTestId("addBtn");
     expect(text).toBeInTheDocument();
   });
 });
