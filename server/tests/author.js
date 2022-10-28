@@ -2,21 +2,6 @@ const request = require("supertest");
 const app = require("../index");
 const mongoose = require("mongoose");
 
-let server;
-
-beforeAll(async () => {
-  server = app.listen();
-});
-
-afterAll(async () => {
-  try {
-    server.close();
-    await mongoose.disconnect();
-    await mongoose.connection.close();
-  } catch (err) {
-    console.log(err);
-  }
-});
 describe("GET all the authors from {GET /api/v1/author} route ", () => {
   test("should respond a 200 status code", async () => {
     await request(app).get("/api/v1/author").expect(200);

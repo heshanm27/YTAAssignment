@@ -32,11 +32,11 @@ const getAllBookDetails = async (req, res) => {
  * @route GET /api/v1/book/:id
  */
 const getBookDetailsByID = async (req, res) => {
-  const book = await bookModel.findById(req.params.id).populate("author");
-  if (book) {
+  try {
+    const book = await bookModel.findById(req.params.id).populate("author");
     res.status(200).json({ msg: "Book found", book });
-  } else {
-    throw new NotFoundError("Book not found.");
+  } catch (err) {
+    throw new BadRequestError("ID is not valid");
   }
 };
 
@@ -60,14 +60,18 @@ const postBookDetails = async (req, res) => {
  * @route PUT /api/v1/book/:id
  * */
 const updateBookDetails = async (req, res) => {
-  const book = await bookModel.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-  if (book) {
+  try {
+    const book = await bookModel.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
     res.status(200).json({ msg: "Update successfully", book });
-  } else {
-    throw new CustomAPIError("Book update faild ", 404);
+  } catch (err) {
+    if (err.name === "ValidationError") {
+      throw new BadRequestError(err.message);
+    }
+    throw new BadRequestError("ID is not valid");
   }
 };
 
