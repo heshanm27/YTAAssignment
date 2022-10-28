@@ -1,9 +1,5 @@
 const authorModel = require("../models/authorModel");
-const {
-  CustomAPIError,
-  NotFoundError,
-  BadRequestError,
-} = require("../errors/errorClass");
+const { BadRequestError } = require("../errors/errorClass");
 
 /**
  *  Get All the authors

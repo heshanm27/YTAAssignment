@@ -1,9 +1,5 @@
 const bookModel = require("../models/bookModel");
-const {
-  CustomAPIError,
-  BadRequestError,
-  NotFoundError,
-} = require("../errors/errorClass");
+const { BadRequestError } = require("../errors/errorClass");
 
 /**
  * Get all the books with pagination
