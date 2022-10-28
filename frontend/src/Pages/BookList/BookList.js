@@ -65,7 +65,7 @@ export default function BookList() {
                 }}
               >
                 <Typography color="primary" variant="h4" align="center">
-                  Books
+                  Books List
                 </Typography>
                 <Divider
                   orientation="horizontal"

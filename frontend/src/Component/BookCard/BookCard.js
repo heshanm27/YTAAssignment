@@ -14,7 +14,7 @@ import { blueGrey } from "@mui/material/colors";
 export default function BookCard({ title, isbn, id }) {
   const navigate = useNavigate();
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }} data-testid="card">
       <CardActionArea onClick={() => navigate(`/book/${id}`)}>
         <CardContent>
           <Stack direction="row">
