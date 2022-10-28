@@ -48,6 +48,9 @@ const postBookDetails = async (req, res) => {
     if (err.name === "ValidationError") {
       throw new BadRequestError(err.message);
     }
+    if ((err.code = "E11000")) {
+      throw new BadRequestError("Book with this ISBN already exists");
+    }
   }
 };
 

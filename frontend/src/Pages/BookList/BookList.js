@@ -85,7 +85,6 @@ export default function BookList() {
                           <BookCard
                             key={book._id}
                             title={book.title}
-                            isbn={book.isbn}
                             id={book._id}
                           />
                         </Grid>

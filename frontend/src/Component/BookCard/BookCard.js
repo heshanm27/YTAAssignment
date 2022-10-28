@@ -22,9 +22,6 @@ export default function BookCard({ title, isbn, id }) {
               <Typography gutterBottom variant="h5" component="div">
                 {title}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {`ISBN: ${isbn}`}
-              </Typography>
             </Stack>
             <Stack
               direction="column"
