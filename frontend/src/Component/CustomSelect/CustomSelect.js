@@ -34,7 +34,6 @@ export default function CustomSelect({
           label={label}
         >
           {options.map((option, index) => {
-            console.log(option.firstName);
             return (
               <MenuItem key={index} value={option._id}>
                 {`${option.firstName + " " + option.lastName}`}

@@ -42,6 +42,7 @@ export default function CustomeDialog({
       sx={displaywraper}
       maxWidth={maxWidth ? maxWidth : "sm"}
       fullScreen={fullScreen}
+      data-testid="dialog"
     >
       <DialogTitle>
         <Box

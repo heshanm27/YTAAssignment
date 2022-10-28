@@ -2,12 +2,17 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import CustomSelect from "../CustomSelect";
 
+const MockCustomSelectOptions = [
+  { firstName: "George R. R.", lastName: "Martin", _id: "George R. R. Martin" },
+  { firstName: "J. R. R.", lastName: "Tolkien", _id: "George R. R. Martin" },
+];
+
 const MockCustomSelect = () => {
   return (
     <CustomSelect
-      options={[]}
+      options={MockCustomSelectOptions}
       label="test select"
-      value="testvalue"
+      value={"George R. R. Martin"}
       handleChanges={() => {}}
       name="test select name"
       helperText={"test helper text"}
@@ -19,7 +24,7 @@ const MockCustomSelect = () => {
 describe("BookCard", () => {
   test("should render BookCard component", () => {
     render(<MockCustomSelect />);
-    const name = screen.getByText(/test select/i);
-    expect(name).toBeInTheDocument();
+    const label = screen.getByText(/test select/i);
+    expect(label).toBeInTheDocument();
   });
 });
