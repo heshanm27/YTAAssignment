@@ -22,14 +22,14 @@ export default function NavBar({ setRefetch, setNotify }) {
         >
           <Button
             sx={{ color: "white" }}
-            endIcon={<MenuBookIcon />}
+            endIcon={<PersonIcon />}
             onClick={() => setOpenAuthorDialog(true)}
           >
             Add Author
           </Button>
           <Button
             sx={{ color: "white" }}
-            endIcon={<PersonIcon />}
+            endIcon={<MenuBookIcon />}
             onClick={() => setOpenBookDialog(true)}
           >
             Add Book

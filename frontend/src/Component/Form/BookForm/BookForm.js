@@ -166,7 +166,9 @@ export default function BookForm({ book, setNotify, setOpen, setRefetch }) {
               helperText={error.author ? error.author : "Select author"}
             />
             {book ? (
-              <Button type="submit">Update Book</Button>
+              <Button data-testid="UpdateBtn" type="submit">
+                Update Book
+              </Button>
             ) : (
               <Button type="submit">Add Book</Button>
             )}
