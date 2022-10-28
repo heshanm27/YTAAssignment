@@ -22,7 +22,7 @@ const MockCustomSelect = () => {
   );
 };
 describe("CustomSelect", () => {
-  test("should render BookCard component", () => {
+  test("should render CustomSelect component", () => {
     render(<MockCustomSelect />);
     const label = screen.getByText(/test select/i);
     expect(label).toBeInTheDocument();

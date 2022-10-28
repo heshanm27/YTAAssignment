@@ -11,7 +11,7 @@ const MockCustomSnackBar = () => {
   );
 };
 describe("CustomSnackBar", () => {
-  test("should render BookCard component", () => {
+  test("should render CustomSnackBar component", () => {
     render(<MockCustomSnackBar />);
     const message = screen.getByText(/test message/i);
     expect(message).toBeInTheDocument();
