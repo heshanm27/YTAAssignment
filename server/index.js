@@ -37,8 +37,8 @@ app.use(notFound);
 app.use(errorHadnler);
 
 //If PORT environment Variable Not avaliable use Port 5000
-
 app.set("port", process.env.PORT || 5000);
+
 /**
  * @description start express server and start Mongodb atlas connection
  */
