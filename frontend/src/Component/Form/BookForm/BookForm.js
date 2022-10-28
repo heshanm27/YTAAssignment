@@ -137,6 +137,7 @@ export default function BookForm({ book, setNotify, setOpen, setRefetch }) {
             spacing={4}
           >
             <TextField
+              data-testid="titleTxtBox"
               fullWidth
               name="title"
               label="Book Title"
@@ -148,6 +149,7 @@ export default function BookForm({ book, setNotify, setOpen, setRefetch }) {
               onChange={handlehanges}
             />
             <TextField
+              data-testid="isbnTxtBox"
               name="isbn"
               label="Book ISBN"
               fullWidth

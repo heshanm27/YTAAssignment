@@ -111,6 +111,7 @@ export default function AuthorForm({ author, setNotify, setOpen, setRefetch }) {
           spacing={4}
         >
           <TextField
+            data-testid="firstNameTxtBox"
             fullWidth
             id="outlined-required"
             label="First Name"
@@ -121,6 +122,7 @@ export default function AuthorForm({ author, setNotify, setOpen, setRefetch }) {
             inputRef={firstNameRef}
           />
           <TextField
+            data-testid="lastNameTxtBox"
             id="outlined-required"
             label="Last Name"
             fullWidth

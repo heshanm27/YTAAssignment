@@ -9,7 +9,7 @@ const MockAuthorForm = () => {
       book={{
         title: "test title",
         isbn: "test isbn",
-        author: { _id: "test id" },
+        author: { _id: "635b9bc311398d8b2d7c33f3" },
       }}
       setNotify={() => {}}
       setOpen={true}
@@ -21,16 +21,28 @@ const MockAuthorForm = () => {
 const MockAddAuthorForm = () => {
   return <BookForm setNotify={() => {}} setOpen={true} setRefetch={false} />;
 };
-describe("BookCard", () => {
-  test("should render BookCard component and update btn", async () => {
+describe("BookForm", () => {
+  test("should render BookForm component and update btn", async () => {
     render(<MockAuthorForm />);
-    const text = await screen.findByTestId("UpdateBtn");
-    expect(text).toBeInTheDocument();
+    const UpdateBtn = await screen.findByTestId("UpdateBtn");
+    expect(UpdateBtn).toBeInTheDocument();
   });
 
-  test("should render BookCard component and add btn", async () => {
+  test("should render BookForm component and add btn", async () => {
     render(<MockAddAuthorForm />);
-    const text = await screen.findByTestId("addBtn");
-    expect(text).toBeInTheDocument();
+    const addBtn = await screen.findByTestId("addBtn");
+    expect(addBtn).toBeInTheDocument();
+  });
+
+  test("should render BookForm component and title text box", async () => {
+    render(<MockAddAuthorForm />);
+    const titleTxtBox = await screen.findByTestId("titleTxtBox");
+    expect(titleTxtBox).toBeInTheDocument();
+  });
+
+  test("should render BookForm component and isbn text box", async () => {
+    render(<MockAddAuthorForm />);
+    const isbnTxtBox = await screen.findByTestId("isbnTxtBox");
+    expect(isbnTxtBox).toBeInTheDocument();
   });
 });
