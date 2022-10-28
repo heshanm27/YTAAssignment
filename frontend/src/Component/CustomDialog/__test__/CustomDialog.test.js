@@ -12,7 +12,7 @@ const MockCustomDialog = () => {
     />
   );
 };
-describe("BookCard", () => {
+describe("CustomDialog", () => {
   test("should render BookCard component", () => {
     render(<MockCustomDialog />);
     const title = screen.getByText(/test dialog/i);

@@ -10,7 +10,7 @@ const MockCustomSnackBar = () => {
     />
   );
 };
-describe("BookCard", () => {
+describe("CustomSnackBar", () => {
   test("should render BookCard component", () => {
     render(<MockCustomSnackBar />);
     const message = screen.getByText(/test message/i);

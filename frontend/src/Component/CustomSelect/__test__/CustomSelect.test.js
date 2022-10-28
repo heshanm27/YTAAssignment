@@ -21,7 +21,7 @@ const MockCustomSelect = () => {
     />
   );
 };
-describe("BookCard", () => {
+describe("CustomSelect", () => {
   test("should render BookCard component", () => {
     render(<MockCustomSelect />);
     const label = screen.getByText(/test select/i);
