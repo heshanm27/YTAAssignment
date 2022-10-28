@@ -19,11 +19,11 @@ const getAllAuthorDetails = async (req, res) => {
  * @route GET /api/v1/author/:id
  * */
 const getAuthorDetailsByID = async (req, res) => {
-  const author = await authorModel.findById(req.params.id);
-  if (author) {
+  try {
+    const author = await authorModel.findById(req.params.id);
     res.status(200).json({ msg: "Author found", author });
-  } else {
-    throw new NotFoundError("Author not found.");
+  } catch (err) {
+    throw new BadRequestError("ID is not valid");
   }
 };
 
@@ -56,15 +56,12 @@ const updateAuthorDetails = async (req, res) => {
         runValidators: true,
       }
     );
-    if (author) {
-      res.status(200).json({ msg: "Update successfully", author });
-    } else {
-      throw new BadRequestError("Author update faild");
-    }
+    res.status(200).json({ msg: "Update successfully", author });
   } catch (err) {
     if (err.name === "ValidationError") {
       throw new BadRequestError(err.message);
     }
+    throw new BadRequestError("ID is not valid");
   }
 };
 
