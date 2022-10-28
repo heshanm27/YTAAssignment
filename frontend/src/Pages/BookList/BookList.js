@@ -20,7 +20,7 @@ export default function BookList() {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(1);
   const [page, setPage] = useState(1);
-  const [refetch, setRefetch] = useState(true);
+  const [refetch, setRefetch] = useState(false);
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -33,6 +33,7 @@ export default function BookList() {
 
   useEffect(() => {
     setLoading(true);
+    setRefetch(false);
     async function fetchBooks() {
       try {
         const { data } = await publicRequest.get(`book/?page=${page}`);

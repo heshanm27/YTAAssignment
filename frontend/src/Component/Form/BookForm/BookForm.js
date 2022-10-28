@@ -106,6 +106,7 @@ export default function BookForm({ book, setNotify, setOpen, setRefetch }) {
         author: book.author._id,
       });
     }
+
     async function getAuthorOptions() {
       try {
         const { data } = await publicRequest.get("author");
