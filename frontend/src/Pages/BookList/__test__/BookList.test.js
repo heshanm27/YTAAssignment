@@ -27,7 +27,7 @@ describe("BookList Nav Bar", () => {
 });
 
 describe("BookList", () => {
-  test("should render BookList with book card component ", async () => {
+  test("should render BookList with book card component", async () => {
     render(<MockBookList />);
     const UpdateBtn = await screen.findByTestId("book-card-0");
     expect(UpdateBtn).toBeInTheDocument();

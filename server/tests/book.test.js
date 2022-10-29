@@ -48,6 +48,19 @@ describe("Add new book without values  {Post /api/v1/book} route", () => {
   });
 });
 
+describe("Add new book with existing isbn  {Post /api/v1/book} route", () => {
+  test("should respond a 400 status code", async () => {
+    await request(app)
+      .post("/api/v1/book")
+      .send({
+        title: "It Ends with Us",
+        isbn: "978-1501110368",
+        author: "635b9a87fab14bf0712f1133",
+      })
+      .expect(400);
+  });
+});
+
 describe("Update  book with id  {Post /api/v1/book:id} route", () => {
   test("should respond a 200 status code", async () => {
     await request(app)
