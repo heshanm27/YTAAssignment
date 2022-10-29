@@ -100,7 +100,7 @@ export default function AuthorForm({ author, setNotify, setOpen, setRefetch }) {
       lastNameRef.current.value = author.lastName;
     }
   }, [author]);
-  console.log(author);
+
   return (
     <Container>
       <form onSubmit={handleSubmit}>

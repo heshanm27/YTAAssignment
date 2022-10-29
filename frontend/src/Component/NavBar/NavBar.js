@@ -21,6 +21,7 @@ export default function NavBar({ setRefetch, setNotify }) {
           sx={{ width: "100%" }}
         >
           <Button
+            data-testid="add-author-btn"
             sx={{ color: "white" }}
             endIcon={<PersonIcon />}
             onClick={() => setOpenAuthorDialog(true)}
@@ -28,6 +29,7 @@ export default function NavBar({ setRefetch, setNotify }) {
             Add Author
           </Button>
           <Button
+            data-testid="add-book-btn"
             sx={{ color: "white" }}
             endIcon={<MenuBookIcon />}
             onClick={() => setOpenBookDialog(true)}

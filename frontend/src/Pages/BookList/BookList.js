@@ -37,7 +37,7 @@ export default function BookList() {
     async function fetchBooks() {
       try {
         const { data } = await publicRequest.get(`book/?page=${page}`);
-        console.log(data);
+
         setCount(data.bookPageCount);
         setBooks(data.books);
         setLoading(false);
@@ -81,8 +81,15 @@ export default function BookList() {
                   sx={{ mt: 5 }}
                 >
                   {!loading && books.length > 0
-                    ? books.map((book) => (
-                        <Grid item xs={12} sm={12} md={6} key={book._id}>
+                    ? books.map((book, index) => (
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={6}
+                          key={book._id}
+                          data-testid={`book-card-${index}`}
+                        >
                           <BookCard
                             key={book._id}
                             title={book.title}
