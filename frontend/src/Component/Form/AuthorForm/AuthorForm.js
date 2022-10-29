@@ -1,4 +1,4 @@
-import { Button, Container, TextField } from "@mui/material";
+import { Button, CircularProgress, Container, TextField } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useRef, useState } from "react";
 import { publicRequest } from "../../../Axios/DefaultAxios";
@@ -7,7 +7,7 @@ export default function AuthorForm({ author, setNotify, setOpen, setRefetch }) {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const [error, setErrors] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const validate = () => {
     let temp = {};
     temp.firstName =
@@ -29,18 +29,20 @@ export default function AuthorForm({ author, setNotify, setOpen, setRefetch }) {
   const handleInsertNewAuthor = async (newAuthor) => {
     try {
       const { data } = await publicRequest.post("author", newAuthor);
-      console.log(data);
       setNotify({
         isOpen: true,
         message: "Author added successfully",
         type: "success",
         title: "Success",
       });
+      console.log(data);
       firstNameRef.current.value = "";
       lastNameRef.current.value = "";
       setOpen(false);
       setRefetch(true);
+      setLoading(false);
     } catch ({ response }) {
+      setLoading(false);
       setNotify({
         isOpen: true,
         message: response.data.msg,
@@ -67,7 +69,9 @@ export default function AuthorForm({ author, setNotify, setOpen, setRefetch }) {
       lastNameRef.current.value = "";
       setOpen(false);
       setRefetch(true);
+      setLoading(false);
     } catch ({ response }) {
+      setLoading(false);
       setNotify({
         isOpen: true,
         message: response.data.msg,
@@ -78,6 +82,7 @@ export default function AuthorForm({ author, setNotify, setOpen, setRefetch }) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (validate()) {
       const newAuthor = {
         firstName: firstNameRef.current.value,
@@ -85,12 +90,12 @@ export default function AuthorForm({ author, setNotify, setOpen, setRefetch }) {
       };
 
       if (author) {
-        console.log("update");
         handleUpdateAuthor(newAuthor);
       } else {
-        console.log("insert");
         handleInsertNewAuthor(newAuthor);
       }
+    } else {
+      setLoading(false);
     }
   };
 
@@ -134,9 +139,21 @@ export default function AuthorForm({ author, setNotify, setOpen, setRefetch }) {
           />
 
           {author ? (
-            <Button type="submit">Update Author</Button>
+            <Button type="submit">
+              {loading ? (
+                <CircularProgress width="100px" color="primary" />
+              ) : (
+                "Update Author"
+              )}
+            </Button>
           ) : (
-            <Button type="submit">Add Author</Button>
+            <Button type="submit">
+              {loading ? (
+                <CircularProgress width="100px" color="primary" />
+              ) : (
+                "Add Author"
+              )}
+            </Button>
           )}
         </Stack>
       </form>

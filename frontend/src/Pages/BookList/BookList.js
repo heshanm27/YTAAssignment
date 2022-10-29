@@ -41,8 +41,12 @@ export default function BookList() {
         setCount(data.bookPageCount);
         setBooks(data.books);
         setLoading(false);
-      } catch (err) {
-        console.log(err);
+      } catch ({ response }) {
+        setNotify({
+          isOpen: true,
+          message: response.data.msg,
+          type: "error",
+        });
       }
     }
     fetchBooks();

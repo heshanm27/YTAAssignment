@@ -37,10 +37,18 @@ export default function BookView() {
   useEffect(() => {
     setLoading(true);
     async function getBookDetails() {
-      const { data } = await publicRequest.get(`book/${id}`);
-      setBookDetails(data.book);
-      setLoading(false);
-      setRefetch(false);
+      try {
+        const { data } = await publicRequest.get(`book/${id}`);
+        setBookDetails(data.book);
+        setLoading(false);
+        setRefetch(false);
+      } catch ({ response }) {
+        setNotify({
+          isOpen: true,
+          message: response.data.msg,
+          type: "error",
+        });
+      }
     }
     getBookDetails();
   }, [id, refetch]);
@@ -78,7 +86,7 @@ export default function BookView() {
                       justifyContent="space-between"
                     >
                       <CustomTypo text="Book Title" />
-                      <CustomTypo text={bookDetails.title} />
+                      <CustomTypo text={bookDetails?.title} />
                     </Stack>
                     <Divider
                       flexItem
@@ -91,7 +99,7 @@ export default function BookView() {
                       justifyContent="space-between"
                     >
                       <CustomTypo text="Book ISBN" />
-                      <CustomTypo text={bookDetails.isbn} />
+                      <CustomTypo text={bookDetails?.isbn} />
                     </Stack>
                     <Divider
                       flexItem
@@ -126,25 +134,37 @@ export default function BookView() {
                   </Stack>
                 )}
 
-                <Stack
-                  direction="row"
-                  justifyContent="center"
-                  spacing={3}
-                  sx={{ mt: 5 }}
-                >
-                  <Button
-                    variant="outlined"
-                    onClick={() => setOpenBookDialog(true)}
+                {!loading && !bookDetails && (
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="center"
+                    sx={{ mt: 5 }}
                   >
-                    Update Book Details
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    onClick={() => setOpenAuthorDialog(true)}
+                    <Typography>Error no book to find</Typography>
+                  </Stack>
+                )}
+                {!loading && bookDetails && (
+                  <Stack
+                    direction="row"
+                    justifyContent="center"
+                    spacing={3}
+                    sx={{ mt: 5 }}
                   >
-                    Update Author Details
-                  </Button>
-                </Stack>
+                    <Button
+                      variant="outlined"
+                      onClick={() => setOpenBookDialog(true)}
+                    >
+                      Update Book Details
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      onClick={() => setOpenAuthorDialog(true)}
+                    >
+                      Update Author Details
+                    </Button>
+                  </Stack>
+                )}
               </Paper>
             </Grid>
           </Grid>
@@ -169,7 +189,7 @@ export default function BookView() {
           title="Update Author Details"
         >
           <AuthorForm
-            author={bookDetails.author}
+            author={bookDetails?.author}
             setNotify={setNotify}
             setOpen={setOpenAuthorDialog}
             setRefetch={setRefetch}

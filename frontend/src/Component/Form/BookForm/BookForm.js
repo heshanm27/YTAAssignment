@@ -53,7 +53,9 @@ export default function BookForm({ book, setNotify, setOpen, setRefetch }) {
       setBookValues(initBook);
       setOpen(false);
       setRefetch(true);
+      setLoading(false);
     } catch ({ response }) {
+      setLoading(false);
       setNotify({
         isOpen: true,
         message: response.data.msg,
@@ -76,7 +78,9 @@ export default function BookForm({ book, setNotify, setOpen, setRefetch }) {
       setBookValues(initBook);
       setOpen(false);
       setRefetch(true);
+      setLoading(false);
     } catch ({ response }) {
+      setLoading(false);
       setNotify({
         isOpen: true,
         message: response.data.msg,
@@ -87,12 +91,15 @@ export default function BookForm({ book, setNotify, setOpen, setRefetch }) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (validate()) {
       if (book) {
         handleUpdateBook();
       } else {
         handleInsertNewBook();
       }
+    } else {
+      setLoading(false);
     }
   };
 
@@ -169,11 +176,19 @@ export default function BookForm({ book, setNotify, setOpen, setRefetch }) {
             />
             {book ? (
               <Button data-testid="UpdateBtn" type="submit">
-                Update Book
+                {loading ? (
+                  <CircularProgress width="100px" color="primary" />
+                ) : (
+                  "Update Book"
+                )}
               </Button>
             ) : (
               <Button data-testid="addBtn" type="submit">
-                Add Book
+                {loading ? (
+                  <CircularProgress width="100px" color="primary" />
+                ) : (
+                  "Add Book"
+                )}
               </Button>
             )}
           </Stack>
