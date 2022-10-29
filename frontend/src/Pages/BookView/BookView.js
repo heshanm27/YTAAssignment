@@ -5,23 +5,25 @@ import {
   CssBaseline,
   Divider,
   Grid,
+  IconButton,
   Paper,
   Stack,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { publicRequest } from "../../Axios/DefaultAxios";
 import CustomeDialog from "../../Component/CustomDialog/CustomDialog";
 import CustomSnackBar from "../../Component/CustomSnackBar/CustomSnackBar";
 import CustomTypo from "../../Component/CustomTypo/CustomTypo";
 import AuthorForm from "../../Component/Form/AuthorForm/AuthorForm";
 import BookForm from "../../Component/Form/BookForm/BookForm";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 export default function BookView() {
   const { id } = useParams();
   const [bookDetails, setBookDetails] = useState({});
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const [openBookDialog, setOpenBookDialog] = useState(false);
   const [openAuthorDialog, setOpenAuthorDialog] = useState(false);
   const [refetch, setRefetch] = useState(true);
@@ -57,6 +59,9 @@ export default function BookView() {
                   mb: 5,
                 }}
               >
+                <IconButton onClick={() => navigate("/")}>
+                  <ArrowBackIcon />
+                </IconButton>
                 <Typography color="primary" variant="h4" align="center">
                   Book Details
                 </Typography>
